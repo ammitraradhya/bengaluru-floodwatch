@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7f5" />
+    <meta name="description" content="A community flood-reporting prototype for Bengaluru, with sample-only reports and route checks." />
+    <title>FloodWatch · Bengaluru</title>
+    <link rel="icon" type="image/svg+xml" href="/floodwatch.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+    <script src="/app.js" defer></script>
+    <script src="/chatbot.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#map" aria-label="FloodWatch Bengaluru home">
+          <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40"><path d="M20 3.5 34 9v10.2c0 8-5.7 14.1-14 17.3C11.7 33.3 6 27.2 6 19.2V9L20 3.5Z"/><path d="M11 19.5c2.8-2.4 5.5-2.4 8.4 0s5.7 2.4 8.6 0M11 24.5c2.8-2.4 5.5-2.4 8.4 0s5.7 2.4 8.6 0"/></svg></span>
+          <span class="brand-copy"><strong>FloodWatch</strong><small>BENGALURU</small></span>
+        </a>
+        <div class="topbar-center"><span class="location-pip"></span><span>Bengaluru, Karnataka</span><span class="topbar-divider"></span><span class="prototype-label">COMMUNITY PREVIEW</span></div>
+        <div class="topbar-actions">
+          <button class="language-toggle" id="languageToggle" type="button" aria-label="Switch language to Kannada"><span class="lang-en active">EN</span><span class="lang-sep">/</span><span class="lang-kn">ಕನ್ನಡ</span></button>
+          <div class="auth-cluster" id="authCluster">
+            <button class="auth-button" id="authButton" type="button" aria-haspopup="true" aria-expanded="false">
+              <span class="auth-avatar" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"/></svg></span>
+              <span class="auth-button-label" id="authButtonLabel" data-i18n="authLogin">Log in</span>
+            </button>
+            <div class="auth-menu" id="authMenu" role="menu" hidden>
+              <div class="auth-menu-head">
+                <span class="auth-avatar lg" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path d="M4 20c0-3.3 3.6-6 8-6s8 2.7 8 6"/></svg></span>
+                <div class="auth-menu-id">
+                  <strong id="authMenuName" data-i18n="authResident">Resident</strong>
+                  <small id="authMenuPhone"></small>
+                </div>
+              </div>
+              <button class="auth-menu-item" id="authLogout" type="button" role="menuitem">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+                <span data-i18n="authLogout">Log out</span>
+              </button>
+            </div>
+          </div>
+          <button class="top-report-button" type="button" data-action="report"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="reportFlood">Report flooding</span></button>
+        </div>
+      </header>
+
+      <main class="workspace" id="map">
+        <section class="explore-column" aria-label="Community reports">
+          <div class="headline-block">
+            <div class="eyebrow"><span class="eyebrow-dot"></span><span data-i18n="sampleLabel">SAMPLE REPORTS · NOT LIVE</span></div>
+            <h1 data-i18n="headline">Know before<br />you head out.</h1>
+            <p data-i18n="subhead">A little local knowledge can change a whole journey.</p>
+          </div>
+
+          <div class="prototype-disclaimer" role="note">
+            <span class="note-icon" aria-hidden="true">i</span>
+            <p><strong data-i18n="communityOnly">A community tool, not a government service.</strong><br /><span data-i18n="sampleNotice">All reports and map details here are illustrative sample data.</span></p>
+          </div>
+
+          <div class="panel-tabs" role="tablist" aria-label="Explore or check a route">
+            <button class="panel-tab active" type="button" role="tab" aria-selected="true" data-panel="reports"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 6 6-2 6 2 4-2v14l-4 2-6-2-6 2V6Z"/><path d="M10 4v14M16 6v14"/></svg><span data-i18n="mapReports">Map & reports</span></button>
+            <button class="panel-tab" type="button" role="tab" aria-selected="false" data-panel="route"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.3"/><circle cx="18" cy="6" r="2.3"/><path d="M8.5 18h3a3 3 0 0 0 3-3v-6a3 3 0 0 1 3-3"/></svg><span data-i18n="routeCheck">Route check</span></button>
+          </div>
+
+          <div class="reports-panel" id="reportsPanel">
+            <div class="list-heading"><div><span class="section-kicker" data-i18n="nearbyTitle">NEARBY REPORTS</span><span class="report-count" id="reportCount">04</span></div><button class="filter-button" id="filterButton" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M7 12h10m-7 6h4"/></svg><span data-i18n="filter">Filter</span></button></div>
+            <div class="filter-chips" id="filterChips" hidden><button class="filter-chip active" data-filter="all" type="button" data-i18n="all">All reports</button><button class="filter-chip" data-filter="high" type="button" data-i18n="high">High water</button><button class="filter-chip" data-filter="medium" type="button" data-i18n="moderate">Moderate</button></div>
+            <div class="report-list" id="reportList" aria-live="polite"></div>
+            <div class="empty-state" id="emptyState" hidden><span>⌕</span><strong data-i18n="noReports">No sample reports in this filter.</strong><small data-i18n="tryAnother">Try another severity filter.</small></div>
+            <button class="text-button view-all" id="viewAllButton" type="button"><span data-i18n="showAll">View all sample reports</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+          </div>
+
+          <div class="route-panel" id="routePanel" hidden>
+            <div class="route-intro"><span class="route-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="18" r="2.3"/><circle cx="18" cy="6" r="2.3"/><path d="M8.5 18h3a3 3 0 0 0 3-3v-6a3 3 0 0 1 3-3"/></svg></span><div><h2 data-i18n="checkJourney">Check your journey</h2><p data-i18n="routeIntro">See whether sample flood reports fall along your way.</p></div></div>
+            <form id="routeForm" class="route-form" novalidate>
+              <label class="route-input-row"><span class="route-endpoint start-point"></span><span class="sr-only" data-i18n="fromLabel">Starting point</span><input id="routeFrom" name="from" autocomplete="off" placeholder="From (e.g. Indiranagar)" aria-label="Starting point" /></label>
+              <div class="route-connector"><span></span></div>
+              <label class="route-input-row"><span class="route-endpoint end-point"></span><span class="sr-only" data-i18n="toLabel">Destination</span><input id="routeTo" name="to" autocomplete="off" placeholder="To (e.g. Koramangala)" aria-label="Destination" /></label>
+              <p class="form-error" id="routeError" role="alert" hidden></p>
+              <button class="primary-button route-submit" id="routeSubmit" type="submit"><span data-i18n="checkRouteButton">Check this route</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+            </form>
+            <div class="route-result" id="routeResult" aria-live="polite" hidden></div>
+            <div class="route-suggestions"><span data-i18n="trySample">TRY A SAMPLE ROUTE</span><button type="button" data-route-from="Indiranagar" data-route-to="Koramangala">Indiranagar <span>→</span> Koramangala</button><button type="button" data-route-from="Jayanagar" data-route-to="MG Road">Jayanagar <span>→</span> MG Road</button></div>
+            <p class="safety-footnote" data-i18n="routeWarning">No recent reports does not mean a route is safe. Use your judgment.</p>
+          </div>
+
+          <div class="helpline-card">
+            <div class="helpline-heading"><span class="helpline-mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 20 7v5.5c0 4.4-3.2 7.4-8 9-4.8-1.6-8-4.6-8-9V7l8-3.5Z"/><path d="M9 12h6m-3-3v6"/></svg></span><div><strong data-i18n="needHelp">Need urgent help?</strong><small data-i18n="callLocal">Use official emergency channels.</small></div></div>
+            <div class="helpline-actions"><a class="call-button emergency-call" href="tel:112"><span class="call-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.1 3.8 9.6 3a1.5 1.5 0 0 1 1.8.9l1 2.5a1.5 1.5 0 0 1-.4 1.7l-1.3 1.1a13 13 0 0 0 4.1 4.1l1.1-1.3a1.5 1.5 0 0 1 1.7-.4l2.5 1a1.5 1.5 0 0 1 .9 1.8l-.8 2.5a2 2 0 0 1-2 1.4C10.7 18 6 13.3 5.7 5.8a2 2 0 0 1 1.4-2Z"/></svg></span><span><small data-i18n="emergency">EMERGENCY</small><strong>112</strong></span></a><a class="call-button" href="tel:1533"><span class="call-icon civic-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.1 3.8 9.6 3a1.5 1.5 0 0 1 1.8.9l1 2.5a1.5 1.5 0 0 1-.4 1.7l-1.3 1.1a13 13 0 0 0 4.1 4.1l1.1-1.3a1.5 1.5 0 0 1 1.7-.4l2.5 1a1.5 1.5 0 0 1 .9 1.8l-.8 2.5a2 2 0 0 1-2 1.4C10.7 18 6 13.3 5.7 5.8a2 2 0 0 1 1.4-2Z"/></svg></span><span><small data-i18n="civicLine">CIVIC LINE · GBA</small><strong>1533</strong></span></a></div>
+            <p class="contact-note" data-i18n="contactNote">Prototype contact details — verify with the GBA before launch.</p>
+          </div>
+
+          <footer class="panel-footer"><span><span class="footer-dot"></span><span data-i18n="communityData">Community-submitted · Sample preview</span></span><span>v0.1</span></footer>
+        </section>
+
+        <section class="map-column" aria-label="Illustrative Bengaluru report map">
+          <div class="map-toolbar"><div class="map-context"><span class="map-title" data-i18n="mapTitle">Bengaluru</span><span class="map-subtitle"><span class="pulse-dot"></span><span data-i18n="sampleMap">Illustrative map · Sample reports</span></span></div><div class="map-tools"><button type="button" class="map-tool-button" id="zoomOut" aria-label="Zoom out"><span>−</span></button><button type="button" class="map-tool-button" id="zoomIn" aria-label="Zoom in"><span>+</span></button><button type="button" class="map-tool-button location-tool" id="myLocation" aria-label="Show sample map center"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3"/></svg></button></div></div>
+          <div class="map-viewport" id="mapViewport">
+            <div class="map-wash"></div>
+            <svg class="street-map" id="streetMap" viewBox="0 0 1080 790" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Stylized map of Bengaluru with sample flood report markers; not a live map">
+              <defs>
+                <pattern id="parkDots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="3" r="1" fill="#b2cfb1" opacity=".45"/><circle cx="12" cy="11" r="1.2" fill="#b2cfb1" opacity=".36"/></pattern>
+                <pattern id="lakeLines" width="22" height="11" patternUnits="userSpaceOnUse"><path d="M0 5c4-3 7-3 11 0s7 3 11 0" fill="none" stroke="#6db6b1" stroke-width="1" opacity=".4"/></pattern>
+                <filter id="mapShadow" x="-50%" y="-50%" width="200%" height="200%"><feDropShadow dx="0" dy="3" stdDeviation="5" flood-color="#3b5651" flood-opacity=".2"/></filter>
+              </defs>
+              <rect width="1080" height="790" fill="#e9eee7"/>
+              <g class="map-blocks" fill="#f8f8f0" stroke="#e5e8dc" stroke-width="1.2">
+                <path d="M-50 110 140 42l113 45 20 113-126 61-156-42Zm305-54 148-33 101 73-31 105-158-15Zm251 30 134-47 155 63-12 111-168 22-106-72Zm276 84 170-27 154 75-41 112-167 14-131-57Zm-758 208 128-72 142 37 24 116-111 78-172-33Zm235-28 130-65 147 59 15 119-158 54-116-49Zm298 13 120-42 156 47 30 141-124 43-153-45Zm-720 226 166-61 133 50 12 124-106 90-198-35Zm317-34 181-60 111 55 20 139-126 84-197-47Zm350 39 140-55 137 61 36 114-159 67-144-40Z"/>
+                <path d="m137 90 50-20 64 23-9 57-68 22-48-32Zm326 42 67-22 51 26-15 48-83 10-38-26Zm408 300 60-27 59 24-13 45-58 17-48-20Zm-383 213 88-30 68 34-17 56-84 15-65-31Z"/>
+              </g>
+              <g fill="#dbe9d7"><path d="m63 300 102-38 77 47-12 87-113 29-65-49Z"/><path d="m728 100 68-26 95 37-4 69-75 44-85-46Z"/><path d="m436 598 99-38 74 37-4 86-82 38-80-49Z"/><path d="m870 537 88-39 76 47-14 81-99 16-53-52Z"/></g>
+              <g fill="url(#parkDots)"><path d="m63 300 102-38 77 47-12 87-113 29-65-49Z"/><path d="m728 100 68-26 95 37-4 69-75 44-85-46Z"/><path d="m436 598 99-38 74 37-4 86-82 38-80-49Z"/><path d="m870 537 88-39 76 47-14 81-99 16-53-52Z"/></g>
+              <g class="local-roads" fill="none" stroke="#d2d8cc" stroke-width="5" stroke-linecap="round">
+                <path d="M-30 170C180 155 282 260 478 216s359-64 638 20"/><path d="M-50 530c142-81 298-46 418 31s278 73 424 14 227-110 337-68"/>
+                <path d="M158-30c12 157 3 270 85 398s111 228 77 450"/><path d="M460-30c-36 159-4 292 52 429s45 236 8 423"/><path d="M782-20c-49 156-10 299 58 404s48 244-13 426"/>
+                <path d="M-40 372c203-81 363-24 489 62s288 59 392-12 171-89 280-55"/>
+              </g>
+              <g class="major-roads" fill="none" stroke="#fdfbf0" stroke-width="16" stroke-linecap="round"><path d="M-40 621c199-129 318-165 495-185s302-83 669-260"/><path d="M138 834c119-190 209-303 356-419S761 192 938-40"/><path d="M-20 288c245 93 407 137 610 129s307 38 525 143"/></g>
+              <g fill="none" stroke="#f1c77e" stroke-width="4" stroke-linecap="round"><path d="M-40 621c199-129 318-165 495-185s302-83 669-260"/><path d="M138 834c119-190 209-303 356-419S761 192 938-40"/></g>
+              <g class="waterways" fill="none" stroke="#83c2be" stroke-width="19" stroke-linecap="round"><path d="M-28 44c174 132 258 178 334 281s98 180 181 266 167 136 304 238 228 140 344 189"/></g>
+              <g fill="url(#lakeLines)" opacity=".8"><path d="M-28 44c174 132 258 178 334 281s98 180 181 266 167 136 304 238 228 140 344 189" fill="none" stroke="#6db6b1" stroke-width="13"/></g>
+              <g class="map-labels" font-family="Inter, ui-sans-serif, system-ui, sans-serif" fill="#77857a"><text x="120" y="150">YELAHANKA</text><text x="360" y="160">HEBBAL</text><text x="689" y="139">WHITEFIELD</text><text x="183" y="390">MALLESHWARAM</text><text x="423" y="341">CENTRAL BENGALURU</text><text x="765" y="363">INDIRANAGAR</text><text x="254" y="595">JAYANAGAR</text><text x="624" y="603">KORAMANGALA</text><text x="839" y="620">SARJAPUR RD</text></g>
+              <g class="lake-label" transform="translate(542 268) rotate(34)"><rect width="120" height="26" rx="13" fill="#d5e9e3"/><text x="12" y="17" fill="#66958b" font-size="10" letter-spacing="1">ULSOOR LAKE</text></g>
+              <g class="map-pins" id="mapPins"></g>
+              <g class="route-line-group" id="routeLineGroup" style="display:none"><path class="route-underlay" d="M465 357 C535 384 568 417 631 438 S740 486 771 554"/><path class="route-line" d="M465 357 C535 384 568 417 631 438 S740 486 771 554"/><circle cx="465" cy="357" r="9" class="route-origin"/><circle cx="771" cy="554" r="9" class="route-destination"/></g>
+            </svg>
+            <div class="map-north" aria-hidden="true"><span>N</span><svg viewBox="0 0 20 32"><path d="M10 1 18 25l-8-5-8 5L10 1Z" fill="#45665a"/><path d="M10 3v17" stroke="#f7f5eb" stroke-width="2"/></svg></div>
+            <div class="map-legend"><span class="legend-title" data-i18n="waterLevel">WATER LEVEL</span><span><i class="legend-dot high-dot"></i><span data-i18n="high">High</span></span><span><i class="legend-dot moderate-dot"></i><span data-i18n="moderate">Moderate</span></span><span><i class="legend-dot cleared-dot"></i><span data-i18n="cleared">Cleared</span></span></div>
+            <div class="map-caption"><span class="caption-icon">⌖</span><span data-i18n="mapCaption">Schematic only · Not for navigation</span></div>
+            <div class="map-selected-card" id="mapSelectedCard" hidden></div>
+          </div>
+          <div class="map-bottom-bar"><div class="map-bottom-note"><span class="bottom-wave"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8c3-3 6-3 9 0s6 3 9 0M3 14c3-3 6-3 9 0s6 3 9 0M3 20c3-3 6-3 9 0s6 3 9 0"/></svg></span><span><strong data-i18n="seeSomething">See flooding nearby?</strong><small data-i18n="helpNeighbors">Your neighbors could use a heads-up.</small></span></div><button class="primary-button bottom-report-button" type="button" data-action="report"><span data-i18n="makeReport">Make a report</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+        </section>
+      </main>
+      <div class="mobile-safe-footer"><a href="tel:112"><span class="mini-call">☎</span><span data-i18n="call112">Call 112</span></a><button type="button" data-action="report"><span class="mini-add">＋</span><span data-i18n="reportFlood">Report flooding</span></button></div>
+    </div>
+
+    <dialog class="report-dialog" id="reportDialog" aria-labelledby="dialogTitle">
+      <form method="dialog" class="dialog-dismiss-form"><button class="dialog-close" value="cancel" aria-label="Close report flow">×</button></form>
+      <div class="dialog-stepper"><span class="step-dot active" id="stepDotOne">1</span><span class="step-line"></span><span class="step-dot" id="stepDotTwo">2</span><span class="step-line"></span><span class="step-dot" id="stepDotThree">3</span><span class="step-label" id="stepLabel">SAMPLE REPORT</span></div>
+      <div class="report-step" id="reportStepOne">
+        <span class="dialog-eyebrow" data-i18n="communityReport">COMMUNITY REPORT</span><h2 id="dialogTitle" data-i18n="reportFlowTitle">Help others steer clear.</h2><p class="dialog-description" data-i18n="reportFlowDescription">Add a sample photo and details. This demo stays on this device.</p>
+        <label class="field-label" for="reportLocation"><span data-i18n="locationLabel">Location</span><span class="req-mark" data-i18n="requiredField">required</span></label><div class="location-input"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><input id="reportLocation" value="Indiranagar, Bengaluru" autocomplete="street-address" required /><span class="sample-location-tag" data-i18n="example">SAMPLE</span></div><small class="field-hint" data-i18n="locationHint">Example place only — no location is being collected.</small>
+        <span class="field-label severity-label" data-i18n="severityLabel">How deep is the water?</span><div class="severity-choices" role="group" aria-label="Sample flood severity"><button type="button" class="severity-choice" data-severity="low"><i class="severity-symbol low-symbol"></i><span data-i18n="low">Low</span></button><button type="button" class="severity-choice active" data-severity="medium"><i class="severity-symbol med-symbol"></i><span data-i18n="moderate">Moderate</span></button><button type="button" class="severity-choice" data-severity="high"><i class="severity-symbol high-symbol"></i><span data-i18n="high">High</span></button></div>
+        <label class="field-label" for="reportDescription"><span data-i18n="descriptionLabel">What can others expect?</span><span class="opt-mark" data-i18n="optionalField">optional</span></label><textarea id="reportDescription" rows="2" maxlength="180" placeholder="e.g. Water across the left lane near the underpass…"></textarea>
+        <span class="field-label photo-required-label"><span data-i18n="addPhoto">Add sample photo</span><span class="req-mark" data-i18n="requiredField">required</span></span><div class="upload-tile" id="uploadTile"><input id="reportPhoto" type="file" accept="image/*" capture="environment" aria-label="Capture a sample flood photo"/><span class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h3l1.4-2h7.2L17 7h3v12H4V7Z"/><circle cx="12" cy="13" r="3.5"/></svg></span><span class="upload-copy"><strong data-i18n="addPhoto">Add sample photo</strong><small id="photoStatus" data-i18n="photoHint">Capture or select a photo · stays local</small></span><span class="upload-arrow">＋</span></div>
+        <p class="inline-form-error" id="reportError" role="alert" hidden></p><button class="primary-button dialog-primary" id="previewReportButton" type="button"><span data-i18n="previewReport">Preview report</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+      </div>
+      <div class="report-step" id="reportStepTwo" hidden></div>
+      <div class="report-step" id="reportStepThree" hidden></div>
+    </dialog>
+
+    <dialog class="auth-dialog" id="authDialog" aria-labelledby="authDialogTitle">
+      <form method="dialog" class="dialog-dismiss-form"><button class="dialog-close" value="cancel" aria-label="Close log in">×</button></form>
+      <div class="auth-dialog-inner">
+        <span class="dialog-eyebrow" data-i18n="authTitle">Log in</span>
+        <h2 id="authDialogTitle" data-i18n="authTitle">Log in</h2>
+        <p class="dialog-description" data-i18n="authSubtitle">Sign in with your phone number to report flooding. Browsing the map needs no account.</p>
+
+        <div class="auth-pane" id="authPanePhone">
+          <label class="field-label" for="authPhone"><span data-i18n="authPhoneLabel">Phone number</span><span class="req-mark" data-i18n="requiredField">required</span></label>
+          <div class="location-input auth-phone-input"><span class="auth-cc" aria-hidden="true">+91</span><input id="authPhone" type="tel" inputmode="numeric" autocomplete="tel" maxlength="14" placeholder="98765 43210" /></div>
+          <p class="inline-form-error" id="authPhoneError" role="alert" hidden></p>
+          <button class="primary-button dialog-primary" id="authSendCode" type="button"><span data-i18n="authSendCode">Send code</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+        </div>
+
+        <div class="auth-pane" id="authPaneOtp" hidden>
+          <label class="field-label" for="authOtp"><span data-i18n="authOtpLabel">6-digit code</span><span class="req-mark" data-i18n="requiredField">required</span></label>
+          <div class="location-input auth-otp-input"><input id="authOtp" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" class="otp-field" aria-label="6-digit code" /></div>
+          <p class="inline-form-error" id="authOtpError" role="alert" hidden></p>
+          <button class="primary-button dialog-primary" id="authVerify" type="button"><span data-i18n="authVerify">Verify & log in</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></button>
+          <button class="text-button auth-change" id="authChangeNumber" type="button"><span data-i18n="authChangeNumber">Change number</span></button>
+        </div>
+
+        <p class="auth-demo-note"><span class="note-icon" aria-hidden="true">i</span><span data-i18n="authDemoNote">Demo only — no real SMS is sent. Enter any 6 digits (e.g. 123456).</span></p>
+      </div>
+    </dialog>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- AI assistant (on-device, reads the live page content) -->
+    <section class="chatbot" id="chatbot" aria-label="FloodWatch assistant" hidden>
+      <header class="chatbot-header">
+        <span class="chatbot-avatar" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 3.5 20 7v5.5c0 4.4-3.2 7.4-8 9-4.8-1.6-8-4.6-8-9V7l8-3.5Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6m-3-3v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/></svg>
+        </span>
+        <div class="chatbot-titles">
+          <strong id="chatbotTitle" data-i18n="chatTitle">FloodWatch Assistant</strong>
+          <small id="chatbotSubtitle" data-i18n="chatSubtitle">Ask me anything about this site</small>
+        </div>
+        <button class="chatbot-close" id="chatbotClose" type="button" aria-label="Close assistant">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </header>
+      <div class="chatbot-body" id="chatbotBody" role="log" aria-live="polite"></div>
+      <div class="chatbot-suggestions" id="chatbotSuggestions"></div>
+      <form class="chatbot-input-row" id="chatbotForm">
+        <input id="chatbotInput" type="text" autocomplete="off" data-i18n-placeholder="chatPlaceholder" placeholder="Ask about reports, routes, safety…" aria-label="Message the FloodWatch assistant" />
+        <button class="chatbot-send" id="chatbotSend" type="submit" data-i18n="chatSend" aria-label="Send message">Send</button>
+      </form>
+      <p class="chatbot-foot" data-i18n="chatNotOfficial">This is a community tool, not an official government service.</p>
+    </section>
+
+    <button class="chatbot-fab" id="chatbotFab" type="button" aria-label="Open FloodWatch assistant" aria-expanded="false" aria-controls="chatbot">
+      <svg class="fab-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.2c-4.9 0-8.8 3.3-8.8 7.4 0 2.3 1.2 4.4 3.2 5.8l-.7 3.2 3.4-1.6c.9.3 1.9.4 2.9.4 4.9 0 8.8-3.3 8.8-7.4S16.9 3.2 12 3.2Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="8.6" cy="10.4" r="1" fill="currentColor"/><circle cx="12" cy="10.4" r="1" fill="currentColor"/><circle cx="15.4" cy="10.4" r="1" fill="currentColor"/></svg>
+      <span class="fab-pulse" aria-hidden="true"></span>
+    </button>
+  </body>
+</html>

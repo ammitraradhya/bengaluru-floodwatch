@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" width="600" height="400">
+  <rect width="600" height="400" fill="#1a4a3a"/>
+  <rect x="0" y="300" width="600" height="100" fill="#1e6a52"/>
+  <ellipse cx="300" cy="320" rx="200" ry="30" fill="#2e8a72" opacity="0.3"/>
+  <path d="M0 300 Q150 290 300 300 T600 300" stroke="#3eb89e" stroke-width="2" fill="none" opacity="0.5"/>
+  <rect x="80" y="140" width="140" height="160" fill="#3d4d48" rx="5"/>
+  <rect x="85" y="150" width="130" height="15" fill="#5a6a65"/>
+  <rect x="85" y="170" width="80" height="12" fill="#5a6a65"/>
+  <rect x="85" y="190" width="100" height="12" fill="#5a6a65"/>
+  <rect x="85" y="210" width="90" height="12" fill="#5a6a65"/>
+  <rect x="85" y="230" width="110" height="12" fill="#5a6a65"/>
+  <rect x="380" y="120" width="140" height="180" fill="#3d4d48" rx="5"/>
+  <rect x="385" y="130" width="130" height="15" fill="#5a6a65"/>
+  <rect x="385" y="150" width="80" height="12" fill="#5a6a65"/>
+  <rect x="385" y="170" width="100" height="12" fill="#5a6a65"/>
+  <rect x="385" y="190" width="120" height="12" fill="#5a6a65"/>
+  <rect x="385" y="210" width="90" height="12" fill="#5a6a65"/>
+  <rect x="385" y="230" width="110" height="12" fill="#5a6a65"/>
+  <circle cx="450" cy="270" r="30" fill="#4ade80" opacity="0.3"/>
+  <text x="450" y="275" text-anchor="middle" fill="#4ade80" font-family="system-ui" font-size="20" font-weight="800">✓</text>
+  <text x="300" y="350" text-anchor="middle" fill="#8ac8b4" font-family="system-ui" font-size="14" font-weight="600">Jayanagar · 9th Block · Cleared</text>
+  <text x="300" y="370" text-anchor="middle" fill="#6a9891" font-family="system-ui" font-size="11">SAMPLE IMAGE · Not actual conditions</text>
+</svg>

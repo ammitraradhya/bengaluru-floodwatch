@@ -1,0 +1,70 @@
+{
+  "reports": [
+    {
+      "id": "bellandur",
+      "location": "Bellandur",
+      "spot": "Outer Ring Road · near Ecospace",
+      "severity": "high",
+      "age": "11 min ago",
+      "ageMinutes": 11,
+      "description": "Water across two lanes near the underpass. Slow traffic is visible.",
+      "descriptionKn": "ಅಂಡರ್‌ಪಾಸ್ ಬಳಿ ಎರಡು ಲೇನ್‌ಗಳಲ್ಲಿ ನೀರು. ವಾಹನ ಸಂಚಾರ ನಿಧಾನವಾಗಿದೆ.",
+      "confirmations": 14,
+      "x": 66.5,
+      "y": 49.5,
+      "photoUrl": "/images/bellandur-waterlogging.svg",
+      "photoCaption": "Outer Ring Road · near Ecospace",
+      "reportedAt": "2026-10-10T09:50:00Z"
+    },
+    {
+      "id": "koramangala",
+      "location": "Koramangala",
+      "spot": "80 Feet Road · 4th Block",
+      "severity": "medium",
+      "age": "24 min ago",
+      "ageMinutes": 24,
+      "description": "Water collecting at the junction. Take care if walking across.",
+      "descriptionKn": "ಜಂಕ್ಷನ್‌ನಲ್ಲಿ ನೀರು ನಿಂತಿದೆ. ರಸ್ತೆ ದಾಟುವಾಗ ಎಚ್ಚರಿಕೆ ವಹಿಸಿ.",
+      "confirmations": 8,
+      "x": 57.7,
+      "y": 64.8,
+      "photoUrl": "/images/koramangala-flooding.svg",
+      "photoCaption": "80 Feet Road · 4th Block",
+      "reportedAt": "2026-10-10T09:35:00Z"
+    },
+    {
+      "id": "hsr",
+      "location": "HSR Layout",
+      "spot": "27th Main · near Agara",
+      "severity": "high",
+      "age": "39 min ago",
+      "ageMinutes": 39,
+      "description": "Standing water beside the service road. Conditions may change.",
+      "descriptionKn": "ಸರ್ವಿಸ್ ರಸ್ತೆಯ ಪಕ್ಕದಲ್ಲಿ ನೀರು ನಿಂತಿದೆ. ಪರಿಸ್ಥಿತಿ ಬದಲಾಗಬಹುದು.",
+      "confirmations": 11,
+      "x": 72.2,
+      "y": 70.5,
+      "photoUrl": "/images/hsr-layout-rain.svg",
+      "photoCaption": "27th Main · near Agara",
+      "reportedAt": "2026-10-10T09:20:00Z"
+    },
+    {
+      "id": "jayanagar",
+      "location": "Jayanagar",
+      "spot": "9th Block · 39th Cross",
+      "severity": "cleared",
+      "age": "1 hr ago",
+      "ageMinutes": 60,
+      "description": "A neighbor marked this spot as cleared. Use your own judgment.",
+      "descriptionKn": "ನೆರೆಹೊರೆಯವರು ಈ ಸ್ಥಳದಲ್ಲಿ ನೀರು ತೆರವು ಎಂದು ಗುರುತಿಸಿದ್ದಾರೆ. ವಿವೇಚನೆಯಿಂದ ನಿರ್ಧರಿಸಿ.",
+      "confirmations": 5,
+      "x": 38.4,
+      "y": 68.6,
+      "photoUrl": "/images/jayanagar-water.svg",
+      "photoCaption": "9th Block · 39th Cross",
+      "reportedAt": "2026-10-10T08:50:00Z"
+    }
+  ],
+  "lastUpdated": "2026-10-10T09:00:00Z",
+  "nextUpdate": "2026-10-12T02:00:00Z"
+}
